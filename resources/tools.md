@@ -9,3 +9,6 @@
 ## Excalidraw
 - https://excalidraw.com/
 - Used for: System diagrams
+
+## SQL Bolt
+- https://sqlbolt.com

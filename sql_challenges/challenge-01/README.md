@@ -1,0 +1,2 @@
+Complete the first 5 lessons of https://sqlbolt.com
+These first five lessons were about the most basic queries using SQL, so I had a fun time reviewing ORDER BY, OFFSET, LIMIT, DISTINCT, etc. and the logic wasn't very complex since we didn't merge columns. 
