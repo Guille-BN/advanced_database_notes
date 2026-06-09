@@ -257,4 +257,4 @@ Answer briefly:
 2. Why use migrations?
 3. When would you rollback?
 4. Difference between `add()` and `commit()`?
-5. Why are relationships useful?
+5. Why are relationships useful? 

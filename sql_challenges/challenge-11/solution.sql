@@ -1,3 +1,71 @@
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    ForeignKey,
+    DateTime,
+    func
+)
+
+from sqlalchemy.orm import declarative_base, relationship
+
+Base = declarative_base()
+
+class Team(Base):
+    __tablename__ = "teams"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), nullable=False, unique=True)
+    description = Column(String(200))
+    created_at = Column(DateTime, server_default=func.current_timestamp())
+
+    users = relationship("User", back_populates="team")
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String(50), nullable=False, unique=True)
+    email = Column(String(100), nullable=False)
+    full_name = Column(String(100))
+    team_id = Column(Integer, ForeignKey("teams.id"))
+    created_at = Column(DateTime, server_default=func.current_timestamp())
+
+    team = relationship("Team", back_populates="users")
+    tasks = relationship("Task", back_populates="assignee")
+    comments = relationship("Comment", back_populates="user")
+
+class Task(Base):
+    __tablename__ = "tasks"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String(200), nullable=False)
+    description = Column(String(1000))
+    status = Column(String(20), default="open")
+    assigned_to = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(DateTime, server_default=func.current_timestamp())
+    updated_at = Column(DateTime)
+
+    assignee = relationship("User", back_populates="tasks")
+
+    comments = relationship(
+        "Comment",
+        back_populates="task",
+        cascade="all, delete"
+    )
+
+class Comment(Base):
+    __tablename__ = "comments"
+
+    id = Column(Integer, primary_key=True)
+    task_id = Column(Integer, ForeignKey("tasks.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    content = Column(String(1000), nullable=False)
+    created_at = Column(DateTime, server_default=func.current_timestamp())
+
+    task = relationship("Task", back_populates="comments")
+    user = relationship("User", back_populates="comments")
+
 -- Exercise 1
 -- 1. What relationships should Comment have?
 /*
